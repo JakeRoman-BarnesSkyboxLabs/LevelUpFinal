@@ -7,15 +7,15 @@
 void AddPlayers(World& world)
 {
 	Rider<RiderType::Player> rider1;
-	rider1.SetPos({ 500, 300 });
+	rider1.SetPos({ 500 * 100, 300 * 100 });
 	rider1.SetColor(sf::Color::Blue);
 
-	Rider<RiderType::Player> rider2(ControlLayout::WASD);
-	rider2.SetPos({ 100, 300 });
-	rider2.SetColor(sf::Color::Yellow);
+	//Rider<RiderType::Player> rider2(ControlLayout::WASD);
+	//rider2.SetPos({ 100 * 100, 300 * 100 });
+	//rider2.SetColor(sf::Color::Yellow);
 
 	world.AddRider(rider1);
-	world.AddRider(rider2);
+	//world.AddRider(rider2);
 }
 
 int main()

@@ -206,10 +206,13 @@ xcopy /y /d  "$(SolutionDir)Externals\SFML\$(PlatformShortName)\bin\sfml-window-
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\Physics\AABB.cpp" />
     <ClCompile Include="Src\World\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\GameObjects\ControlMap.h" />
+    <ClInclude Include="Inc\Math\Vec2.h" />
+    <ClInclude Include="Inc\Physics\AABB.h" />
     <ClInclude Include="Inc\Utils\DirectionUtils.h" />
     <ClInclude Include="Inc\GameObjects\Rider.h" />
     <ClInclude Include="Inc\Precompiled.h" />

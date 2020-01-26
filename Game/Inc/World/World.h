@@ -1,11 +1,11 @@
 #pragma once
-#include "Precompiled.h"
 #include "GameObjects/Rider.h"
+#include "Physics/AABB.h"
 
 class World {
-	std::vector<Rider<RiderType::Player>> mHumanRiders;
-	std::vector<Rider<RiderType::CPU>> mCPURiders;
-	std::vector<sf::RectangleShape> mWalls;
+	std::vector<std::pair<Rider<RiderType::Player>, AABB>> mHumanRiders;
+	std::vector<std::pair<Rider<RiderType::CPU>, AABB>> mCPURiders;
+	std::vector<std::pair<AABB, sf::Color>> mCompletedWalls;
 
 	sf::RenderWindow& mRenderWindow;
 
@@ -25,6 +25,9 @@ public:
 	void RenderWorld() const;
 
 private:
+	template<RiderType type>
+	bool RiderCrashed(const Rider<type>& rider) const;
+	void HandleCollisions() const;
 };
 
 template<RiderType type>
@@ -52,4 +55,43 @@ inline Rider<type> World::GetRider(unsigned int riderID)
 	{
 		return mHumanRiders[riderID];
 	}
+}
+
+template<RiderType type>
+inline bool World::RiderCrashed(const Rider<type>& rider) const
+{
+	for (const auto& [testRider, testWall] : mHumanRiders)
+	{
+		if constexpr (type == RiderType::Player)
+		{
+			if (rider.GetColor() == testRider.GetColor())
+			{
+				continue;
+			}
+		}
+		if (rider.GetAABB().Collides(testWall))
+		{
+			return true;
+		}
+	}
+	for (const auto& [cpu, testWall] : mCPURiders)
+	{
+		if constexpr (type == RiderType::CPU)
+		{
+			if (rider.GetColor() == cpu.GetColor())
+			{
+				continue;
+			}
+		}
+		if (rider.GetAABB().Collides(testWall))
+		{
+			return true;
+		}
+	}
+	for (const auto& [wall, color] : mCompletedWalls)
+	{
+		return rider.GetAABB().Collides(wall);
+	}
+
+	return false;
 }

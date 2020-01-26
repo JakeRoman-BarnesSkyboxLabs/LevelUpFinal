@@ -11,6 +11,9 @@
     <ClCompile Include="Src\World\World.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Physics\AABB.cpp">
+      <Filter>GameObjects\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precompiled">
@@ -31,6 +34,9 @@
     <Filter Include="World">
       <UniqueIdentifier>{0a60027a-c1ff-4ae7-a1cc-1d2902773c89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Physics">
+      <UniqueIdentifier>{88eabe1f-3dae-4bd3-bf41-ba0fb61f57e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\Precompiled.h">
@@ -47,6 +53,12 @@
     </ClInclude>
     <ClInclude Include="Inc\World\World.h">
       <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Physics\AABB.h">
+      <Filter>GameObjects\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Math\Vec2.h">
+      <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

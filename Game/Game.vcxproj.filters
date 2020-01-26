@@ -8,6 +8,9 @@
     <ClCompile Include="Src\GameObjects\ControlMap.cpp">
       <Filter>GameObjects\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="Src\World\World.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precompiled">
@@ -25,6 +28,9 @@
     <Filter Include="GameObjects\Utils">
       <UniqueIdentifier>{d94d8dc6-6a2b-4add-84d6-0a3caadca8b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{0a60027a-c1ff-4ae7-a1cc-1d2902773c89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\Precompiled.h">
@@ -38,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="Inc\Utils\DirectionUtils.h">
       <Filter>GameObjects\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\World\World.h">
+      <Filter>World</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

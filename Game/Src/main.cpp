@@ -2,18 +2,33 @@
 #include "SFML/Graphics.hpp"
 
 #include "GameObjects/Rider.h"
+#include "World/World.h"
+
+void AddPlayers(World& world)
+{
+	Rider<RiderType::Player> rider1;
+	rider1.SetPos({ 500, 300 });
+	rider1.SetColor(sf::Color::Blue);
+
+	Rider<RiderType::Player> rider2(ControlLayout::WASD);
+	rider2.SetPos({ 100, 300 });
+	rider2.SetColor(sf::Color::Yellow);
+
+	world.AddRider(rider1);
+	world.AddRider(rider2);
+}
 
 int main()
 {
 	const sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(1024, 768, desktopMode.bitsPerPixel), "virus.jif");
 
-	Rider<RiderType::Player> rider;
-	rider.SetPos({ 500, 300 });
-	// TODO create a world to contain walls and riders
+	World world(window);
+	AddPlayers(world);
 
 	while (window.isOpen())
 	{
+		window.clear();
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -22,16 +37,14 @@ int main()
 				window.close();
 			}
 			// pass game events
-			rider.HandleEvent(event);
+			world.HandleEvent(event);
 		}
 
 		// Tick game
-		rider.Tick();
-
-		window.clear();
+		world.TickWorld();
 
 		// Run game render calls
-		rider.Render(window);
+		world.RenderWorld();
 
 		window.display();
 	}

@@ -13,7 +13,7 @@ enum class RiderType
 template<RiderType type>
 class Rider
 {
-	static constexpr int64_t kBaseMoveSpeed = 4;
+	static constexpr int64_t kBaseMoveSpeed = 30;
 
 	std::string mName;
 	ControlMap mController;
@@ -49,7 +49,7 @@ public:
 	bool ChangedDirectionThisTick() const { return mPosDirectionChange == mPosLast; }
 
 	void HandleEvent(const sf::Event& event);
-	void Tick();
+	void Tick(uint64_t deltaTime);
 	void Render(sf::RenderWindow& window) const;
 };
 
@@ -103,7 +103,7 @@ void Rider<type>::HandleEvent(const sf::Event& event)
 }
 
 template<RiderType type>
-void Rider<type>::Tick()
+void Rider<type>::Tick(uint64_t deltaTime)
 {
 	if constexpr (type == RiderType::CPU)
 	{
@@ -112,7 +112,7 @@ void Rider<type>::Tick()
 
 	// move rider in facing direction
 	mPosLast = GetPos();
-	Vec2 moveDelta = Utils::GetVector(mFacing) * kBaseMoveSpeed;
+	Vec2 moveDelta = Utils::GetVector(mFacing) * kBaseMoveSpeed * deltaTime;
 	mAABB.Move(moveDelta.x, moveDelta.y);
 }
 

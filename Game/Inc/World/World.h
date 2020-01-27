@@ -21,7 +21,7 @@ public:
 	Rider<type> GetRider(unsigned int riderID);
 
 	void HandleEvent(const sf::Event& event);
-	void TickWorld();
+	void TickWorld(uint64_t deltaTime);
 	void RenderWorld() const;
 
 private:

@@ -12,6 +12,10 @@ struct Vec2
 	Vec2 operator-(const Vec2& other) const { return { x - other.x, y - other.y }; }
 	Vec2 operator*(const Vec2& other) const { return { x * other.x, y * other.y }; }
 	Vec2 operator/(const Vec2& other) const { return { x / other.x, y / other.y }; }
+	Vec2 operator+=(const Vec2& other) { return { x += other.x, y += other.y }; }
+	Vec2 operator-=(const Vec2& other) { return { x -= other.x, y -= other.y }; }
+	Vec2 operator*=(const Vec2& other) { return { x *= other.x, y *= other.y }; }
+	Vec2 operator/=(const Vec2& other) { return { x /= other.x, y /= other.y }; }
 
 	Vec2 operator+(int64_t other) const { return { x + other, y + other }; }
 	Vec2 operator-(int64_t other) const { return { x - other, y - other }; }

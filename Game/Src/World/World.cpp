@@ -43,24 +43,32 @@ void World::HandleEvent(const sf::Event& event)
 	}
 }
 
-void World::TickWorld()
+void World::TickWorld(uint64_t deltaTime)
 {
 	for (auto& [player, trailingWall] : mHumanRiders)
 	{
-		player.Tick();
+		player.Tick(deltaTime);
 		if (player.ChangedDirectionThisTick())
 		{
 			mCompletedWalls.emplace_back(trailingWall, player.GetColor());
 		}
 		trailingWall.SetPosition(player.GetMovementSegmentOrigin());
 		Vec2 dimensions = player.GetPos();
-		dimensions.x -= player.GetMovementSegmentOrigin().x;
-		dimensions.y -= player.GetMovementSegmentOrigin().y;
+		dimensions -= player.GetMovementSegmentOrigin();
+		if (dimensions.x == 0)
+		{
+			dimensions.x = 100;
+		}
+		if (dimensions.y == 0)
+		{
+			dimensions.y = 100;
+		}
+
 		trailingWall.SetDimensions(dimensions.x, dimensions.y);
 	}
 	for (auto& [cpu, trailingWall] : mCPURiders)
 	{
-		cpu.Tick();
+		cpu.Tick(deltaTime);
 	}
 	HandleCollisions();
 }
@@ -69,12 +77,11 @@ void World::RenderWorld() const
 {
 	auto renderWall = [&renderWindow = mRenderWindow](std::pair<AABB, sf::Color> wall)
 	{
-		sf::Vector2f renderDimensions = Vec2::toScreenVector(wall.first.mWidth, wall.first.mHeight);
-		sf::Vector2f renderPosition = Vec2::toScreenVector(wall.first.mX, wall.first.mY);
+		const sf::Vector2f renderDimensions = Vec2::toScreenVector(wall.first.mWidth, wall.first.mHeight);
+		const sf::Vector2f renderPosition = Vec2::toScreenVector(wall.first.mX, wall.first.mY);
 		sf::RectangleShape wallShape(renderDimensions);
 		wallShape.setPosition(renderPosition);
-		wallShape.setOutlineThickness(1.0f);
-		wallShape.setOutlineColor(wall.second);
+		wallShape.setFillColor(wall.second);
 		renderWindow.draw(wallShape);
 	};
 

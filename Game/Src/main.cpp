@@ -1,5 +1,7 @@
 #include "Precompiled.h"
 #include "SFML/Graphics.hpp"
+#include "SFML/System/Clock.hpp"
+#include "SFML/System/Time.hpp"
 
 #include "GameObjects/Rider.h"
 #include "World/World.h"
@@ -22,6 +24,9 @@ int main()
 {
 	const sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(1024, 768, desktopMode.bitsPerPixel), "virus.jif");
+	window.setFramerateLimit(60);
+	sf::Clock clock;
+	sf::Time deltaTime;
 
 	World world(window);
 	AddPlayers(world);
@@ -39,9 +44,9 @@ int main()
 			// pass game events
 			world.HandleEvent(event);
 		}
-
 		// Tick game
-		world.TickWorld();
+		deltaTime = clock.restart();
+		world.TickWorld(deltaTime.asMilliseconds());
 
 		// Run game render calls
 		world.RenderWorld();

@@ -4,21 +4,22 @@
 class AABB
 {
 public:
-	int64_t mX = 0;
-	int64_t mY = 0;
-	int64_t mWidth = 1;
-	int64_t mHeight = 1;
+	float mX = 0.0f;
+	float mY = 0.0f;
+	float mWidth = 1.0f;
+	float mHeight = 1.0f;
 
 public:
 	AABB() = default;
-	AABB(int64_t x, int64_t y, int64_t width = 1, int64_t height = 1) : mX(x), mY(y), mWidth(width), mHeight(height) {}
+	AABB(float x, float y, float width = 1.0f, float height = 1.0f) : mX(x), mY(y), mWidth(width), mHeight(height) {}
 
-	void SetPosition(int64_t x, int64_t y) { mX = x; mY = y; }
+	void SetPosition(float x, float y) { mX = x; mY = y; }
 	void SetPosition(Vec2 pos) { SetPosition(pos.x, pos.y); }
-	void SetDimensions(int64_t x, int64_t y) { mWidth = x; mHeight = y; }
-	void Move(int64_t x, int64_t y) { mX += x; mY += y; }
+	void SetDimensions(float x, float y) { mWidth = x; mHeight = y; }
+	void Grow(Vec2 increase);
+	void Move(float x, float y) { mX += x; mY += y; }
 
-	Vec2 GetCenter() const { return { mX + (mWidth / 2), mY + (mHeight / 2) }; }
+	Vec2 GetCenter() const { return { mX + (mWidth * 0.5f), mY + (mHeight * 0.5f) }; }
 	int64_t GetLeftExtend() const;
 	int64_t GetRightExtend() const;
 	int64_t GetTopExtend() const;

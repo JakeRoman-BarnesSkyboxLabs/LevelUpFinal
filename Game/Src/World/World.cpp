@@ -6,17 +6,17 @@
 World::World(sf::RenderWindow& renderWindow)
 	: mRenderWindow(renderWindow)
 {
-	constexpr int64_t wallWidth = 1;
-	const int64_t windowSizeX = static_cast<int64_t>(mRenderWindow.getSize().x) * 100;
-	const int64_t windowSizeY = static_cast<int64_t>(mRenderWindow.getSize().y) * 100;
-	AABB horizontalBorder(0, 0, windowSizeX, wallWidth);
-	AABB verticalBorder(0, 0, wallWidth, windowSizeY);
+	constexpr float wallWidth = 1.0f;
+	const float windowSizeX = static_cast<float>(mRenderWindow.getSize().x);
+	const float windowSizeY = static_cast<float>(mRenderWindow.getSize().y);
+	AABB horizontalBorder(0.0f, 0.0f, windowSizeX, wallWidth);
+	AABB verticalBorder(0.0f, 0.0f, wallWidth, windowSizeY);
 
 	sf::Color BorderfillColor(sf::Color::White);
 	mCompletedWalls.push_back({ horizontalBorder, sf::Color::White });
 	mCompletedWalls.push_back({ verticalBorder, sf::Color::White });
-	horizontalBorder.SetPosition(0, windowSizeY - wallWidth);
-	verticalBorder.SetPosition(windowSizeX - wallWidth, 0);
+	horizontalBorder.SetPosition(0.0f, windowSizeY - wallWidth);
+	verticalBorder.SetPosition(windowSizeX - wallWidth, 0.0f);
 	mCompletedWalls.push_back({ horizontalBorder, sf::Color::White });
 	mCompletedWalls.push_back({ verticalBorder, sf::Color::White });
 }
@@ -55,13 +55,13 @@ void World::TickWorld(uint64_t deltaTime)
 		trailingWall.SetPosition(player.GetMovementSegmentOrigin());
 		Vec2 dimensions = player.GetPos();
 		dimensions -= player.GetMovementSegmentOrigin();
-		if (dimensions.x == 0)
+		if (dimensions.x == 0.0f)
 		{
-			dimensions.x = 100;
+			dimensions.x = 1.0f;
 		}
-		if (dimensions.y == 0)
+		if (dimensions.y == 0.0f)
 		{
-			dimensions.y = 100;
+			dimensions.y = 1.0f;
 		}
 
 		trailingWall.SetDimensions(dimensions.x, dimensions.y);

@@ -5,11 +5,16 @@
 
 struct Vec2
 {
-	int64_t x;
-	int64_t y;
+	float x;
+	float y;
 
 	Vec2 operator+(const Vec2& other) const { return { x + other.x, y + other.y }; }
-	Vec2 operator-(const Vec2& other) const { return { x - other.x, y - other.y }; }
+	Vec2 operator-(const Vec2& other) const
+	{
+		float xResult = x - other.x;
+		float yResult = y - other.y;
+		return Vec2{ xResult, yResult };
+	}
 	Vec2 operator*(const Vec2& other) const { return { x * other.x, y * other.y }; }
 	Vec2 operator/(const Vec2& other) const { return { x / other.x, y / other.y }; }
 	Vec2 operator+=(const Vec2& other) { return { x += other.x, y += other.y }; }
@@ -17,14 +22,14 @@ struct Vec2
 	Vec2 operator*=(const Vec2& other) { return { x *= other.x, y *= other.y }; }
 	Vec2 operator/=(const Vec2& other) { return { x /= other.x, y /= other.y }; }
 
-	Vec2 operator+(int64_t other) const { return { x + other, y + other }; }
-	Vec2 operator-(int64_t other) const { return { x - other, y - other }; }
-	Vec2 operator*(int64_t other) const { return { x * other, y * other }; }
-	Vec2 operator/(int64_t other) const { return { x / other, y / other }; }
+	Vec2 operator+(float other) const { return { x + other, y + other }; }
+	Vec2 operator-(float other) const { return { x - other, y - other }; }
+	Vec2 operator*(float other) const { return { x * other, y * other }; }
+	Vec2 operator/(float other) const { return { x / other, y / other }; }
 
 	bool operator==(const Vec2& other) const { return x == other.x && y == other.y; }
 	bool operator!=(const Vec2& other) const { return x != other.x || y != other.y; }
 
-	sf::Vector2f toScreenVector() const { return { static_cast<float>(x) / 100, static_cast<float>(y) / 100 }; }
-	static sf::Vector2f toScreenVector(int64_t x, int64_t y) { return { static_cast<float>(x) / 100, static_cast<float>(y) / 100 }; }
+	sf::Vector2f toScreenVector() const { return { static_cast<float>(x), static_cast<float>(y) }; }
+	static sf::Vector2f toScreenVector(float x, float y) { return { static_cast<float>(x), static_cast<float>(y) }; }
 };

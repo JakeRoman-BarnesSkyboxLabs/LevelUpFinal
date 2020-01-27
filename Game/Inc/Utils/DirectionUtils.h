@@ -44,21 +44,21 @@ inline Vec2 GetVector(const Direction facing)
 	switch (facing)
 	{
 	case Direction::North:
-		return { 0, -1 };
+		return { 0.0f, -1.0f };
 		break;
 	case Direction::East:
-		return { 1, 0 };
+		return { 1.0f, 0.0f };
 		break;
 	case Direction::South:
-		return { 0, 1 };
+		return { 0.0f, 1.0f };
 		break;
 	case Direction::West:
-		return { -1, 0 };
+		return { -1.0f, 0.0f };
 		break;
 	default:
 		break;
 	}
-	return { 0, 0 };
+	return { 0.0f, 0.0f };
 }
 
 }

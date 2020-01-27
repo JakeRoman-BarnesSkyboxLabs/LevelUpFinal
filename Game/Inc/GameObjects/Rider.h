@@ -13,7 +13,7 @@ enum class RiderType
 template<RiderType type>
 class Rider
 {
-	static constexpr int64_t kBaseMoveSpeed = 30;
+	static constexpr float kBaseMoveSpeed = 0.3f;
 
 	std::string mName;
 	ControlMap mController;
@@ -40,9 +40,11 @@ public:
 	void SetControls(const ControlLayout& controls) { mController = std::move(ControlMap(controls)); }
 	void SetPos(Vec2 pos) { mAABB.SetPosition(pos.x, pos.y); mPosLast = pos; mPosDirectionChange = pos; }
 	void SetColor(sf::Color color) { mColor = color; }
+	void SetDirection(Utils::Direction facing) { mFacing = facing; }
 
 	const sf::Color& GetColor() const { return mColor; }
 	const AABB& GetAABB() const { return mAABB; };
+	AABB GetCollisionAABB() const;
 	const Vec2& GetPos() const { return { mAABB.mX, mAABB.mY }; };
 	const Vec2& GetMovementSegmentOrigin() const { return mPosDirectionChange; }
 
@@ -70,8 +72,8 @@ Rider<type>::Rider(const ControlMap& customControls)
 template<RiderType type>
 inline void Rider<type>::Initialize()
 {
-	mAABB.mHeight = 1000;
-	mAABB.mWidth = 750;
+	mAABB.mHeight = 10.0f;
+	mAABB.mWidth = 7.5f;
 	mPosLast = {mAABB.mX, mAABB.mY};
 	mPosDirectionChange = mPosLast;
 }
@@ -83,6 +85,20 @@ Rider<type>& Rider<type>::operator=(Rider&& other) noexcept
 	mFacing = std::move(other.mFacing);
 
 	return *this;
+}
+
+template<RiderType type>
+inline AABB Rider<type>::GetCollisionAABB() const
+{
+	AABB collisionBox(mAABB);
+	if (ChangedDirectionThisTick())
+	{
+		return collisionBox;
+	}
+	const Vec2 pos = GetPos();
+	const Vec2 travelDistThisTick = mPosLast - pos;
+	collisionBox.Grow(travelDistThisTick);
+	return collisionBox;
 }
 
 template<RiderType type>
@@ -129,11 +145,5 @@ void Rider<type>::Render(sf::RenderWindow& window) const
 	shape.setOutlineColor(sf::Color::White);
 	shape.setOutlineThickness((shape.getSize().x + shape.getSize().y) * 0.5f * 0.1f);
 
-	sf::CircleShape center(1000.0f);
-	center.setOrigin(Vec2::toScreenVector(mAABB.mWidth / 2, mAABB.mHeight / 2));
-	center.setPosition(GetPos().toScreenVector());
-	center.setFillColor(sf::Color::Green);
-
 	window.draw(shape);
-	window.draw(center);
 }

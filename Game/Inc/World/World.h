@@ -69,7 +69,7 @@ inline bool World::RiderCrashed(const Rider<type>& rider) const
 				continue;
 			}
 		}
-		if (rider.GetAABB().Collides(testWall))
+		if (rider.GetCollisionAABB().Collides(testWall))
 		{
 			return true;
 		}
@@ -83,14 +83,17 @@ inline bool World::RiderCrashed(const Rider<type>& rider) const
 				continue;
 			}
 		}
-		if (rider.GetAABB().Collides(testWall))
+		if (rider.GetCollisionAABB().Collides(testWall))
 		{
 			return true;
 		}
 	}
 	for (const auto& [wall, color] : mCompletedWalls)
 	{
-		return rider.GetAABB().Collides(wall);
+		if (rider.GetCollisionAABB().Collides(wall))
+		{
+			return true;
+		}
 	}
 
 	return false;

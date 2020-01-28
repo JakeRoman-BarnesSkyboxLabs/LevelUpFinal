@@ -4,25 +4,28 @@
 class AABB
 {
 public:
-	float mX = 0.0f;
-	float mY = 0.0f;
-	float mWidth = 1.0f;
-	float mHeight = 1.0f;
+	Vec2 mBottomLeft;
+	Vec2 mTopRight;
+	Vec2 mPos;
 
 public:
 	AABB() = default;
-	AABB(float x, float y, float width = 1.0f, float height = 1.0f) : mX(x), mY(y), mWidth(width), mHeight(height) {}
+	AABB(Vec2 pos) : mPos(pos) {}
+	AABB(Vec2 pos, float width, float Height) : mPos(pos) { SetDimensions(width, Height); }
 
-	void SetPosition(float x, float y) { mX = x; mY = y; }
-	void SetPosition(Vec2 pos) { SetPosition(pos.x, pos.y); }
-	void SetDimensions(float x, float y) { mWidth = x; mHeight = y; }
+	void SetPosition(float x, float y) { mPos.x = x; mPos.y = y; }
+	void SetPosition(Vec2 pos) { mPos = pos; }
+	void SetDimensions(float x, float y);
+	void SetDimensions(Vec2 newDim);
 	void Grow(Vec2 increase);
-	void Move(float x, float y) { mX += x; mY += y; }
+	void Move(float x, float y);
 
-	Vec2 GetCenter() const { return { mX + (mWidth * 0.5f), mY + (mHeight * 0.5f) }; }
-	int64_t GetLeftExtend() const;
-	int64_t GetRightExtend() const;
-	int64_t GetTopExtend() const;
-	int64_t GetBottomExtend() const;
+	Vec2 GetCenter() const { return mPos; }
+	float GetWidth() const { return mTopRight.x - mBottomLeft.x; }
+	float GetHeight() const { return mTopRight.y - mBottomLeft.y; }
+	float GetLeftExtend() const;
+	float GetRightExtend() const;
+	float GetTopExtend() const;
+	float GetBottomExtend() const;
 	bool Collides(const AABB& other) const;
 };

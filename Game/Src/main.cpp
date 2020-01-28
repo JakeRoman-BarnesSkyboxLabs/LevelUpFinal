@@ -8,12 +8,16 @@
 
 void AddPlayers(World& world)
 {
+	const sf::Vector2u windowSize = world.GetRenderWindow().getSize();
+	const float windowHalfWidth = static_cast<float>(windowSize.x) * 0.5f;
+	const float windowHeight = static_cast<float>(windowSize.y);
+
 	Rider<RiderType::Player> rider1;
-	rider1.SetPos({ 512, 738 });
+	rider1.SetPos({ windowHalfWidth, windowHeight + rider1.GetAABB().GetBottomExtend() - world.mWallWidth });
 	rider1.SetColor(sf::Color::Blue);
 
 	Rider<RiderType::Player> rider2(ControlLayout::WASD);
-	rider2.SetPos({ 512, 30 });
+	rider2.SetPos({ windowHalfWidth, rider2.GetAABB().GetTopExtend() + world.mWallWidth });
 	rider2.SetColor(sf::Color::Yellow);
 	rider2.SetDirection(Utils::Direction::South);
 

@@ -7,14 +7,11 @@ struct Vec2
 {
 	float x;
 	float y;
+	
+	Vec2 operator-() const { return { -x, -y }; }
 
 	Vec2 operator+(const Vec2& other) const { return { x + other.x, y + other.y }; }
-	Vec2 operator-(const Vec2& other) const
-	{
-		float xResult = x - other.x;
-		float yResult = y - other.y;
-		return Vec2{ xResult, yResult };
-	}
+	Vec2 operator-(const Vec2& other) const { return { x - other.x, y - other.y }; }
 	Vec2 operator*(const Vec2& other) const { return { x * other.x, y * other.y }; }
 	Vec2 operator/(const Vec2& other) const { return { x / other.x, y / other.y }; }
 	Vec2 operator+=(const Vec2& other) { return { x += other.x, y += other.y }; }
@@ -26,6 +23,10 @@ struct Vec2
 	Vec2 operator-(float other) const { return { x - other, y - other }; }
 	Vec2 operator*(float other) const { return { x * other, y * other }; }
 	Vec2 operator/(float other) const { return { x / other, y / other }; }
+	Vec2 operator+=(float other) { return { x += other, y += other }; }
+	Vec2 operator-=(float other) { return { x -= other, y -= other }; }
+	Vec2 operator*=(float other) { return { x *= other, y *= other }; }
+	Vec2 operator/=(float other) { return { x /= other, y /= other }; }
 
 	bool operator==(const Vec2& other) const { return x == other.x && y == other.y; }
 	bool operator!=(const Vec2& other) const { return x != other.x || y != other.y; }

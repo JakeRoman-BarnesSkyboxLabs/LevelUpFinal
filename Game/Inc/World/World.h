@@ -9,6 +9,8 @@ class World {
 
 	sf::RenderWindow& mRenderWindow;
 
+	bool mGameActive = false;
+
 public:
 	World(sf::RenderWindow& renderWindow);
 
@@ -20,14 +22,18 @@ public:
 	template<RiderType type>
 	Rider<type> GetRider(unsigned int riderID);
 
+	const sf::RenderWindow& GetRenderWindow() const { return mRenderWindow; }
+
 	void HandleEvent(const sf::Event& event);
 	void TickWorld(uint64_t deltaTime);
 	void RenderWorld() const;
 
+	static const float mWallWidth;
+
 private:
 	template<RiderType type>
 	bool RiderCrashed(const Rider<type>& rider) const;
-	void HandleCollisions() const;
+	void HandleCollisions();
 };
 
 template<RiderType type>

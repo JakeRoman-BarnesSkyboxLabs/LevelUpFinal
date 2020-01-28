@@ -3,44 +3,54 @@
 
 #include <algorithm>
 
+void AABB::SetDimensions(float x, float y)
+{
+	SetDimensions({ x, y });
+}
+
+void AABB::SetDimensions(Vec2 newDim)
+{
+	Vec2 halfInc = newDim * 0.5f;
+	mTopRight = halfInc;
+	mBottomLeft = -halfInc;
+}
+
 void AABB::Grow(Vec2 increase)
 {
-    mWidth += increase.x;
-    mHeight += increase.y;
-    if (increase.x < 0.0f)
-    {
-        mX += increase.x;
-    }
-    if (increase.y < 0.0f)
-    {
-        mY += increase.y;
-    }
+	Vec2 halfInc = increase * 0.5f;
+	mTopRight += halfInc;
+	mBottomLeft -= halfInc;
 }
 
-int64_t AABB::GetLeftExtend() const
+void AABB::Move(float x, float y)
 {
-    return std::min(mX, mX + mWidth);
+	mPos += {x, y};
 }
 
-int64_t AABB::GetRightExtend() const
+float AABB::GetLeftExtend() const
 {
-    return std::max(mX, mX + mWidth);
+    return mPos.x + mBottomLeft.x;
 }
 
-int64_t AABB::GetTopExtend() const
+float AABB::GetRightExtend() const
 {
-    return std::max(mY, mY + mHeight);
+    return mPos.x + mTopRight.x;
 }
 
-int64_t AABB::GetBottomExtend() const
+float AABB::GetTopExtend() const
 {
-    return std::min(mY, mY + mHeight);
+    return mPos.y + mTopRight.y;
+}
+
+float AABB::GetBottomExtend() const
+{
+	return mPos.y + mBottomLeft.y;
 }
 
 bool AABB::Collides(const AABB& other) const
 {
-    return (GetLeftExtend() < other.GetRightExtend() &&
-            GetRightExtend() > other.GetLeftExtend() &&
-            GetTopExtend() > other.GetBottomExtend() &&
-            GetBottomExtend() < other.GetTopExtend());
+	return (GetLeftExtend() < other.GetRightExtend() &&
+			GetRightExtend() > other.GetLeftExtend() &&
+			GetTopExtend() > other.GetBottomExtend() &&
+			GetBottomExtend() < other.GetTopExtend());
 }
